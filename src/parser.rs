@@ -7,9 +7,6 @@ use d4_lexer::{lex_line_d4, D4Token};
 pub mod from_cnf;
 use from_cnf::{check_for_cnf_header, CNFToken};
 
-pub mod d4v2_wrapper;
-use crate::parser::d4v2_wrapper::compile_cnf;
-
 pub mod persisting;
 pub mod util;
 
@@ -69,7 +66,7 @@ pub fn build_ddnnf(mut path: &str, mut total_features: Option<u32>) -> Ddnnf {
                         clauses: _,
                     } => {
                         let ddnnf_file = ".intermediate.nnf";
-                        compile_cnf(path, ddnnf_file);
+                        d4_oxide::compile_ddnnf(path.to_string(), ddnnf_file.to_string());
                         path = ddnnf_file;
                         total_features = Some(features as u32);
                         break;
